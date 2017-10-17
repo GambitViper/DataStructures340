@@ -93,11 +93,7 @@ public class HuffmanTree {
 	 * @return atLeaf boolean operation
 	 */
 	public boolean atLeaf() {
-		if (current.right == null && current.left == null) {
-			return true;
-		} else {
-			return false;
-		}
+		return current.right == null && current.left == null;
 	}
 
 	/**
@@ -108,7 +104,8 @@ public class HuffmanTree {
 	public char current() {
 		return current.data;
 	}
-
+	
+	//TODO fix PathIterator / path generator
 	public class PathIterator implements Iterator<String> {
 		private LinkedList<String> paths;
 
@@ -118,8 +115,10 @@ public class HuffmanTree {
 		}
 
 		private void makePath(Node r, String path) {
-			if (atLeaf()) {
+			//System.out.println("r is: " + r.data);
+			if (r.left == null) {
 				paths.add(r.data + path);
+				System.out.println(r.data + path);
 			} else {
 				makePath(r.left, path + "0");
 				makePath(r.right, path + "1");
@@ -127,7 +126,7 @@ public class HuffmanTree {
 		}
 
 		public boolean hasNext() {
-			return paths.size() < 1;
+			return !paths.isEmpty();
 		}
 
 		public String next() {
