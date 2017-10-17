@@ -66,6 +66,7 @@ public class HuffmanTree {
 	public HuffmanTree(HuffmanTree b1, HuffmanTree b2, char d) {
 		root = new Node(b1.root, d, b2.root);
 		current = root;
+		
 	}
 
 	/*

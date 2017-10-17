@@ -38,6 +38,7 @@ public class HuffmanEncode {
 			Item left = queue.poll();
 			Item right = queue.poll();
 			
+			
 			HuffmanTree merge = new HuffmanTree(left.data, right.data, (char) 128);
 			
 			Item putBack = new Item(merge, left.freq + right.freq);
