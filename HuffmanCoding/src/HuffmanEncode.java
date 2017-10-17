@@ -110,7 +110,6 @@ public class HuffmanEncode {
 		encodings = new String[128];
 		while (iter.hasNext()) {
 			String pathEncode = iter.next();
-			System.out.println("path encode: " + pathEncode);
 			encodings[pathEncode.charAt(0)] = pathEncode.substring(1);
 		}
 		encodeOut(out, treeStr, in);

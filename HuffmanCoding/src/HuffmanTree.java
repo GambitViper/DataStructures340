@@ -118,7 +118,6 @@ public class HuffmanTree {
 			//System.out.println("r is: " + r.data);
 			if (r.left == null) {
 				paths.add(r.data + path);
-				System.out.println(r.data + path);
 			} else {
 				makePath(r.left, path + "0");
 				makePath(r.right, path + "1");
