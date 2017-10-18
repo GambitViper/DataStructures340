@@ -28,7 +28,7 @@ public class HuffmanInputStream extends BitInputStream{
 		}
 		
 		public String getTree(){
-			return null;
+			return tree;
 		}
 		
 		public int totalChars(){

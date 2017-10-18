@@ -105,7 +105,6 @@ public class HuffmanTree {
 		return current.data;
 	}
 	
-	//TODO fix PathIterator / path generator
 	public class PathIterator implements Iterator<String> {
 		private LinkedList<String> paths;
 
@@ -115,7 +114,6 @@ public class HuffmanTree {
 		}
 
 		private void makePath(Node r, String path) {
-			//System.out.println("r is: " + r.data);
 			if (r.left == null) {
 				paths.add(r.data + path);
 			} else {
