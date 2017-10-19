@@ -2,57 +2,56 @@ import java.io.*;
 import java.util.*;
 
 public class HuffmanDecode {
-	
-	private LinkedList<HuffmanTree> list;
+
+	private Stack<HuffmanTree> stack;
 	private int totalChars;
-	
+
 	/**
-	 * Implements the huffman decoding algorithm
-	 * private methods as needed
+	 * Implements the huffman decoding algorithm private methods as needed
+	 * 
 	 * @param in
 	 * @param out
 	 */
-	public HuffmanDecode(String in, String out){
+	public HuffmanDecode(String in, String out) {
 		HuffmanInputStream decode = new HuffmanInputStream(in);
 		String treeToBuild = decode.getTree();
 		totalChars = decode.totalChars();
 		System.out.println("Initial: " + treeToBuild);
 		HuffmanTree rebuilt = rebuildTree(treeToBuild);
 		System.out.println("Rebuilt: " + rebuilt);
-		
+		decodeOut(decode, rebuilt);
+
 	}
-	
-	private HuffmanTree rebuildTree(String tree){
-		list = new LinkedList<>();
-		for(int i = 0; i < tree.length(); ++i){
-			if(tree.charAt(i) != (char) 128){
-				//System.out.println("char added: " + tree.charAt(i));
-				list.add(new HuffmanTree(tree.charAt(i)));
+
+	private HuffmanTree rebuildTree(String tree) {
+		stack = new Stack<>();
+		for (int i = 0; i < tree.length(); ++i) {
+			//System.out.println("Character " + tree.charAt(i) + " ");
+			if (tree.charAt(i) == (char) 128){//(list.size() > 1){ //|| tree.charAt(i) == (char) 128) {
+				HuffmanTree right = stack.pop();
+				HuffmanTree left = stack.pop();
+
+				//System.out.println("Merging: " + left + " /merge\\ " + right);
+				HuffmanTree merge = new HuffmanTree(left, right, (char) 128);
+
+				stack.push(new HuffmanTree(left, right, (char) 128));
 			}else {
-				if(list.size() > 1){
-					HuffmanTree left = list.poll();
-					HuffmanTree right = list.poll();
-					
-					HuffmanTree merge = new HuffmanTree(left, right, (char) 128);
-					
-					list.add(merge);
-				}
+			//if (tree.charAt(i) != (char) 128) {
+				// System.out.println("char added: " + tree.charAt(i));
+				stack.push(new HuffmanTree(tree.charAt(i)));
 			}
 		}
-		return list.poll();
+		return stack.pop();
 	}
 	
-	/*
-	 * 		Item left = queue.poll();
-			Item right = queue.poll();
+	private void decodeOut(HuffmanInputStream stream, HuffmanTree tree){
+		while(totalChars > 0){
+			
+			totalChars--;
+		}
+	}
 
-			HuffmanTree merge = new HuffmanTree(left.data, right.data, (char) 128);
-
-			Item putBack = new Item(merge, left.freq + right.freq);
-			queue.add(putBack);
-	 */
-	
-	public static void main(String args[]){
+	public static void main(String args[]) {
 		new HuffmanDecode(args[0], args[1]);
 	}
 
