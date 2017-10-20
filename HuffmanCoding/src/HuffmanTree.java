@@ -24,6 +24,7 @@ public class HuffmanTree {
 
 	private Node root;
 	private Node current;
+	private Stack<HuffmanTree> stack;
 
 	public HuffmanTree() {
 		root = null;
@@ -50,7 +51,19 @@ public class HuffmanTree {
 	 *            is the char value of the data in the non-leaf nodes
 	 */
 	public HuffmanTree(String t, char nonLeaf) {
+		stack = new Stack<>();
+		for (int i = 0; i < t.length(); ++i) {
+			if (t.charAt(i) == nonLeaf){
+				HuffmanTree right = stack.pop();
+				HuffmanTree left = stack.pop();
 
+				stack.push(new HuffmanTree(left, right, nonLeaf));
+			}else {
+				stack.push(new HuffmanTree(t.charAt(i)));
+			}
+		}
+		root = stack.pop().current;
+		current = root;
 	}
 
 	/**
@@ -75,7 +88,7 @@ public class HuffmanTree {
 	 */
 
 	public void moveRoot() {
-
+			//current = current.data;
 	}
 
 	public void moveLeft() {
