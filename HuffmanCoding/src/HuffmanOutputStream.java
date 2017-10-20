@@ -19,7 +19,7 @@ public class HuffmanOutputStream extends BitOutputStream{
 			d.writeInt(totalChars);
 		}
 		catch (IOException e){
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -40,7 +40,7 @@ public class HuffmanOutputStream extends BitOutputStream{
 		try{
 			d.write(currentByte);
 		} catch(IOException e){
-			
+			e.printStackTrace();
 		}
 		currentByte = 0;
 		bitCount = 0;
