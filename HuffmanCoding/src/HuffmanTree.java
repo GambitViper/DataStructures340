@@ -88,15 +88,15 @@ public class HuffmanTree {
 	 */
 
 	public void moveRoot() {
-			//current = current.data;
+		current = root;
 	}
 
 	public void moveLeft() {
-
+		current = current.left;
 	}
 
 	public void moveRight() {
-
+		current = current.right;
 	}
 
 	/**
