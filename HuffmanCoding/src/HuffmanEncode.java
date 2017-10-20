@@ -83,6 +83,7 @@ public class HuffmanEncode {
 				toEncode = br.read();
 			}
 			br.close();
+			bitOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
