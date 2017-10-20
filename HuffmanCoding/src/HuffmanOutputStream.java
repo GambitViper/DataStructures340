@@ -7,42 +7,49 @@
  *
  */
 import java.io.*;
-public class HuffmanOutputStream extends BitOutputStream{
-	
+
+public class HuffmanOutputStream extends BitOutputStream {
+
 	private int currentByte;
 	private int bitCount;
-	
-	public HuffmanOutputStream(String filename, String tree, int totalChars){
+
+	public HuffmanOutputStream(String filename, String tree, int totalChars) {
 		super(filename);
-		try{
+		try {
 			d.writeUTF(tree);
 			d.writeInt(totalChars);
-		}
-		catch (IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void writeBit(int bit){
+
+	public void writeBit(int bit) {
 		currentByte += bit << bitCount;
 		bitCount++;
-		
-		if(bitCount == 8){
+		if (bitCount == 8) {
 			writeByte();
 		}
 	}
-	
-	public void close(){
-		
-	}
-	
-	private void writeByte(){
-		try{
+
+	private void writeByte() {
+		try {
 			d.write(currentByte);
-		} catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		currentByte = 0;
 		bitCount = 0;
 	}
+
+	public void close() {
+		if(bitCount > 0){
+			writeByte();
+		}
+		try {
+			d.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
