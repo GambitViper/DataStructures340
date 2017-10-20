@@ -14,44 +14,37 @@ public class HuffmanInputStream extends BitInputStream {
 	private int totalChars;
 	private int currentByte;
 	private int bitsread;
-	private int[] bite;
 
 	public HuffmanInputStream(String filename) {
 		super(filename);
 		try {
 			tree = d.readUTF();
 			totalChars = d.readInt();
+			readByte();
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		}
 	}
 
 	public int readBit() {
-		if(bitsread >= 0){
-			bitsread--;
-			int store = bite[7 - bitsread];
-			bite[7 - bitsread] = 0;
-			return store;
-		}else {
-			readByte();
-			bitsread--;
-			int store = bite[7 - bitsread];
-			bite[7 - bitsread] = 0;
-			return store;
+		if(currentByte == -1){
+			close();
+			return -1;
 		}
+		int bit = currentByte % 2;
+		currentByte /= 2;
+		
+		bitsread++;
+		if(bitsread == 8){
+			readByte();
+		}
+		return bit;
 	}
 
 	private void readByte() {
-		bite = new int[8];
 		bitsread = 0;
 		try {
-			while (bitsread < 7) {
-				currentByte = d.read();
-				bite[7 - bitsread] = currentByte % 2;
-				currentByte %= 2;
-				currentByte /= 2;
-				bitsread++;
-			}
+			currentByte = d.readUnsignedByte();			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +59,11 @@ public class HuffmanInputStream extends BitInputStream {
 	}
 
 	public void close() {
-
+		try{
+			d.close();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
 }
