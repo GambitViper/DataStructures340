@@ -1,13 +1,11 @@
 import java.io.*;
-import java.util.*;
 
 public class HuffmanDecode {
 
-	private Stack<HuffmanTree> stack;
 	private int totalChars;
 
 	/**
-	 * Implements the huffman decoding algorithm private methods as needed
+	 * Implements the Huffman decoding algorithm private methods as needed
 	 * 
 	 * @param in
 	 * @param out
@@ -16,17 +14,32 @@ public class HuffmanDecode {
 		HuffmanInputStream decode = new HuffmanInputStream(in);
 		String treeToBuild = decode.getTree();
 		totalChars = decode.totalChars();
-		System.out.println("Initial: " + treeToBuild);
-		HuffmanTree rebuilt = new HuffmanTree(treeToBuild, (char) 128);//rebuildTree(treeToBuild);
-		System.out.println("Rebuilt: " + rebuilt);
-		decodeOut(decode, rebuilt);
+		HuffmanTree rebuilt = new HuffmanTree(treeToBuild, (char) 128);
+		decodeOut(decode, rebuilt, out);
 
 	}
-	
-	private void decodeOut(HuffmanInputStream stream, HuffmanTree tree){
-		while(totalChars > 0){
-			
-			totalChars--;
+
+	private void decodeOut(HuffmanInputStream stream, HuffmanTree tree, String outFile) {
+		try {
+			PrintWriter fout = new PrintWriter(outFile);
+			while (totalChars > 0) {
+				if (!(tree.atLeaf())) {
+					int cmp = stream.readBit();
+					if (cmp == 1) {
+						tree.moveRight();
+					} else {
+						tree.moveLeft();
+					}
+				} else {
+					fout.write(tree.current());
+					tree.moveRoot();
+					totalChars--;
+				}
+			}
+			fout.close();
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
