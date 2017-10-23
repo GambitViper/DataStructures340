@@ -87,14 +87,17 @@ public class HuffmanTree {
 	 * Each method except atLeaf and current changes the value of current
 	 */
 
+	//Moves to the position of the root
 	public void moveRoot() {
 		current = root;
 	}
 
+	//Moves to the left node of the current node
 	public void moveLeft() {
 		current = current.left;
 	}
 
+	//Moves to the right node of the current node
 	public void moveRight() {
 		current = current.right;
 	}
@@ -110,9 +113,8 @@ public class HuffmanTree {
 	}
 
 	/**
-	 * current returns the data value in the current Node
-	 * 
-	 * @return current.data
+	 * current returns the data value / character in the current Node
+	 * @return current.data 
 	 */
 	public char current() {
 		return current.data;
@@ -121,11 +123,13 @@ public class HuffmanTree {
 	public class PathIterator implements Iterator<String> {
 		private LinkedList<String> paths;
 
+		//Build a linked list of encoding paths and pull from that for encoding data
 		public PathIterator() {
 			paths = new LinkedList<>();
 			makePath(root, "");
 		}
 
+		//Builds the string representation paths for the encoded characters
 		private void makePath(Node r, String path) {
 			if (r.left == null) {
 				paths.add(r.data + path);
@@ -139,6 +143,7 @@ public class HuffmanTree {
 			return !paths.isEmpty();
 		}
 
+		//Returns the string representation of the encoded path
 		public String next() {
 			return paths.poll();
 		}
@@ -157,6 +162,7 @@ public class HuffmanTree {
 		return toString(root);
 	}
 	
+	//To String method for the Huffman Tree
 	private String toString(Node r){
 		if(r == null){
 			return "";
