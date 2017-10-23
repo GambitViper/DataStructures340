@@ -15,6 +15,9 @@ public class HuffmanEncode {
 	private String[] encodings;
 	private int totalChars;
 
+	/**
+	 * Private class used for the priority queue portion of the encoding
+	 */
 	private class Item implements Comparable<Item> {
 		private int freq;
 		private HuffmanTree data;
@@ -34,6 +37,9 @@ public class HuffmanEncode {
 
 	}
 
+	/**
+	 * Builds a Huffman Tree from a filled Priority Queue of Items
+	 */
 	private void buildTree() {
 		while (queue.size() > 1) {
 			Item left = queue.poll();
@@ -46,6 +52,10 @@ public class HuffmanEncode {
 		}
 	}
 
+	/**
+	 * Reads in the file and creates a Priority Queue for frequencies and Huffman Trees to build the final tree
+	 * @param filename - source file to be compressed
+	 */
 	private void readFile(String filename) {
 		int[] frequencies = new int[128];
 		try {
@@ -71,6 +81,12 @@ public class HuffmanEncode {
 		}
 	}
 
+	/**
+	 * 
+	 * @param fout - Destination file for the binary compressed version
+	 * @param tree - Post-order representation of the tree
+	 * @param fin - Source file to be compressed
+	 */
 	private void encodeOut(String fout, String tree, String fin) {
 		try {
 			HuffmanOutputStream bitOut = new HuffmanOutputStream(fout, tree, totalChars);
