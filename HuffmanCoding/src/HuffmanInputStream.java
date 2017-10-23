@@ -26,6 +26,7 @@ public class HuffmanInputStream extends BitInputStream {
 		}
 	}
 
+	//Reads bit at a time, using math on an initial unsigned byte
 	public int readBit() {
 		if(currentByte == -1){
 			close();
@@ -41,6 +42,7 @@ public class HuffmanInputStream extends BitInputStream {
 		return bit;
 	}
 
+	//Reads in the byte
 	private void readByte() {
 		bitsread = 0;
 		try {
