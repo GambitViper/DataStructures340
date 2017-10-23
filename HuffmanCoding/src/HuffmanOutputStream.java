@@ -23,6 +23,7 @@ public class HuffmanOutputStream extends BitOutputStream {
 		}
 	}
 
+	//Writes bit at a time, keeps a counter for when to write out as a byte
 	public void writeBit(int bit) {
 		currentByte += bit << bitCount;
 		bitCount++;
@@ -31,6 +32,7 @@ public class HuffmanOutputStream extends BitOutputStream {
 		}
 	}
 
+	//Writes the bit stream out as a full byte regardless of how many full characters were encoded into the byte
 	private void writeByte() {
 		try {
 			d.write(currentByte);
@@ -41,6 +43,7 @@ public class HuffmanOutputStream extends BitOutputStream {
 		bitCount = 0;
 	}
 
+	//Closes the data to avoid leaks and writes out the final bits if they didn't fill a full byte
 	public void close() {
 		if(bitCount > 0){
 			writeByte();
