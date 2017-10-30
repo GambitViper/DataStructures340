@@ -33,22 +33,26 @@ public class ExpressionTree {
 	public int evaluate(SymbolTable t) {
 		// return the int value of the expression tree 
 		//t is used to lookup values of variables 
+		
 		return evaluate(t, root);
 	}
 
 	private int evaluate(SymbolTable t, Node r) {
 		// return the int value of the expression tree with root r
 		// t is used to lookup values of variables
+		
 		return -1;
 	}
 
 	public String toPostfix() {
 		// return the postfix representation of the expression tree
+		
 		return toPostfix(root);
 	}
 
 	private String toPostfix(Node r) {
 		// return the postfix representation of the tree with root r
+		
 		return null;
 	}
 
@@ -62,6 +66,7 @@ public class ExpressionTree {
 	private String toInfix(Node r) {
 		// return the fully parenthesized infix representation of the tree with
 		// root r
+		
 		return null;
 	}
 	
