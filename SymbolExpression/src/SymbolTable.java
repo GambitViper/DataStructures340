@@ -126,6 +126,13 @@ public class SymbolTable {
 			set.data = d;
 		}
 	}
+	
+	public boolean remove(String k) {
+		// if k is in the table, return the entry
+		// for k and return true //if k is not
+		// in the table, return false
+		return false;
+	}
 
 	public class STIterator implements Iterator<String> {
 		// An iterator that
@@ -155,13 +162,6 @@ public class SymbolTable {
 		public void remove() { // optional method not implemented
 
 		}
-	}
-
-	public boolean remove(String k) {
-		// if k is in the table, return the entry
-		// for k and return true //if k is not
-		// in the table, return false
-		return false;
 	}
 
 	public Iterator<String> iterator() {
