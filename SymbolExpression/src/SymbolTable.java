@@ -1,8 +1,4 @@
 /**
- * 
- */
-
-/**
  * @author Zach
  *
  */
@@ -23,6 +19,10 @@ public class SymbolTable {
 			key = k;
 			data = d;
 			next = x;
+		}
+		
+		public String toString(){
+			return key + " : " + data.toString();
 		}
 	}
 
@@ -131,7 +131,25 @@ public class SymbolTable {
 		// if k is in the table, return the entry
 		// for k and return true //if k is not
 		// in the table, return false
-		return false;
+		if (find(k)){
+			Node remove = table[hash(k)];
+			if (remove.key.equals(k)){
+				table[hash(k)] = remove.next;
+			}else {
+				//Initial position was not key == k
+				while(!remove.next.key.equals(k)){
+					remove = remove.next;
+				}
+				remove = remove.next;
+			}
+//			Node remove = find(table[hash(k)], k);
+//			System.out.println(remove + "\n" + "\\/");
+//			remove = remove.next;
+//			System.out.println(remove + "\n");
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	public class STIterator implements Iterator<String> {
@@ -140,27 +158,42 @@ public class SymbolTable {
 		// the keys in the
 		// table
 		private Node curNode;
-		private int hash;
+		private int idx;
 
 		public STIterator() {
-
+			idx = 0;
+			curNode = table[idx];
 		}
 
 		public boolean hasNext() {
+			if(idx < table.length || curNode != null){
+				return true;
+			}
 			return false;
 		}
 
 		public String next() {
-			// PRE: hasNext() //The format of the string
-			// should be key:data where key is a key in the
-			// //symbol table and data is the string
-			// representaGon of the data associated //with
-			// the key
-			return null;
+			// PRE: hasNext() 
+			//The format of the string should be key:data where key is a key in the
+			//symbol table and data is the String representation of the data associated 
+			//with the key
+			while(curNode == null && hasNext()){
+				curNode = table[idx];
+				idx++;
+			}
+			
+			if(curNode == null){
+				return "";
+			}
+			
+			Node nextNode = curNode;
+			curNode = curNode.next;
+			
+			return nextNode.toString();
 		}
 
-		public void remove() { // optional method not implemented
-
+		public void remove() { 
+			// optional method not implemented
 		}
 	}
 
@@ -171,16 +204,29 @@ public class SymbolTable {
 
 	public static void main(String[] args) {
 		// code to test SymbolTable
-		SymbolTable table = new SymbolTable(26);
-		int fives = 0;
-		for (int c = 65; c < 91; c++) {
-			fives++;
-			String str = c + "";
-			System.out.printf("|%3d  ", table.hash(str));
-			if (fives > 5) {
-				System.out.println();
-				fives = 0;
-			}
+		int tableSize = 26;
+		
+		SymbolTable table = new SymbolTable(tableSize);
+		table.insert("x");
+		table.setValue("x", new Integer("3"));
+		
+		table.insert("y");
+		table.setValue("y", new Integer("42"));
+		
+		table.insert("z");
+		table.setValue("z", new Integer("1703"));
+		
+		Iterator<String> iter = table.iterator();
+		while(iter.hasNext()){
+			System.out.println(iter.next());
+		}
+		
+		table.setValue("z", "Haha!");
+		table.remove("y");
+		
+		iter = table.iterator();
+		while(iter.hasNext()){
+			System.out.println(iter.next());
 		}
 
 	}
