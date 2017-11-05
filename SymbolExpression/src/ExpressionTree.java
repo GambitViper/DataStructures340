@@ -22,7 +22,7 @@ public class ExpressionTree {
 			right = r;
 		}
 		
-		public String toString(){
+		public String toString(){//TODO Remove me
 			return data;
 		}
 	}
@@ -44,15 +44,9 @@ public class ExpressionTree {
 		// PRE: exp is a legal infix expression
 		// Build an expression tree from the expression exp
 
-//		// The expression split up into tokens into a stack
-//		LinkedList<String> expStack = generateTokens(exp);
-
 		// Operators and Operands stacks
 		operators = new Stack<>();
 		operands = new Stack<>();
-
-		// Open parenthesis checker
-//		boolean isParenthesis = false;
 
 		// ~~~~~~~~~~~~~~~~~~~~Psuedo Code for Reverse Polish~~~~~~~~~~~~~~~~
 		// for each token in the reversed postfix expression:
@@ -69,29 +63,30 @@ public class ExpressionTree {
 		// push operand onto the operand stack
 		// pending_operand <- True
 		// result <- pop from the operand stack
+		
 		for(String token : exp.split(" ")) {
-//			System.out.println("Token I'm looking at: " + token);
-//			isParenthesis = false;
-			System.out.println("Operators" + operators);
-			System.out.print("Operands");
+			System.out.println("Operators" + operators);//TODO remove print statement
+			System.out.print("Operands");//TODO remove print statement
 			printOperands();
 			if (isOperand(token)) {
-				System.out.println("Pushing to Operands: " + token);
+				System.out.println("Pushing to Operands: " + token);//TODO remove print statement
 				operands.push(new ExpressionTree(new Node(null, token, null)));
 			} else if(token.equals("(")){
-				System.out.println("Pushing to Operators: " + token);
+				System.out.println("Pushing to Operators: " + token);//TODO remove print statement
 				operators.push(token);
 			} else if(token.equals(")")){
 				while(!operators.isEmpty() && !operators.peek().equals("(")){
 					operands.push(operate());
 				}
-				System.out.println("Popping Open: " + operators.peek());
+				System.out.println("Popping Open: " + operators.peek());//TODO remove print statement
 				operators.pop();
+			}else if(token.equals("^") && operators.peek().equals("^")){
+				operators.push(token);
 			}else {
 				while(!operators.isEmpty() && precedence(token) <= precedence(operators.peek())){
 					operands.push(operate());
 				}
-				System.out.println("Pushing to Operators: " + token);
+				System.out.println("Pushing to Operators: " + token);//TODO remove print statement
 				operators.push(token);
 			}
 		}
@@ -114,7 +109,7 @@ public class ExpressionTree {
 		return merge;
 	}
 	
-	private void printOperands(){
+	private void printOperands(){//TODO Remove me
 		System.out.print("[");
 		for (ExpressionTree t : operands){
 			System.out.print(t.root + ", ");
@@ -122,93 +117,6 @@ public class ExpressionTree {
 		System.out.print("]");
 		System.out.println();
 	}
-
-//	private boolean pushPriority(String token, String peek) {
-//		if (comparePrecedence(token, peek) > 0) {
-//			return true;
-//		} else if (comparePrecedence(token, peek) < 0 && precedence(token) >= 3) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-
-//	private int comparePrecedence(String token, String peek) {
-//		// If token is higher precedence than peeked return > 1
-//		// Else if token is lower precedence than peeked or equal return < 1
-//		int compare = precedence(token);
-//		int compareTo = precedence(peek);
-//		return compare > compareTo ? 1 : -1;
-//	}
-
-//	private boolean operationsPending(Stack<String> operators, Stack<ExpressionTree> operands) {
-//		if (operands.isEmpty() || operators.isEmpty()) {
-//			return false;
-//		}
-//		if (precedence(operators.peek()) == 4) {
-//			return operands.size() >= 1;
-//		} else {
-//			return operands.size() >= 2;
-//		}
-//	}
-
-	private void performOperation(ExpressionTree operand1, String operator, ExpressionTree operand2) {
-//		String operator = operators.pop();
-
-//		// Stop loop if open parenthesis for forced precedence case
-//		if (precedence(operator) >= 5) {
-//			return;
-//		}
-
-		ExpressionTree right = operand2;
-		ExpressionTree left;
-		if (precedence(operator) == 4) {
-			left = null;
-			ExpressionTree merged = new ExpressionTree(left, operator, right);
-			operands.push(merged);
-		} else {
-			// Not unary minus
-			left = operands.pop();
-			ExpressionTree merged = new ExpressionTree(left, operator, right);
-			operands.push(merged);
-		}
-		System.out.println("Merging: " + left.root.data + " -> " + operator + " <- " + right.root.data);
-
-	}
-
-//	private LinkedList<String> generateTokens(String exp) {
-//		LinkedList<String> list = new LinkedList<>();
-//		String[] tokens = exp.trim().split(" ");
-//		for (String t : tokens) {
-//			System.out.println("Adding " + t + " to expStack");
-//			list.push(t);
-//		}
-//		return list;
-//	}
-	
-// Expression Tree fail
-//	if (operators.isEmpty() || pushPriority(token, operators.peek())) {
-//	operators.push(token);
-//	System.out.println("Pushing to Operators: " + token);
-//} else {
-//	// token has lesser precedence than current operator in
-//	// operators stack
-//	while (operationsPending(operators, operands) && !isParenthesis
-//			&& !pushPriority(token, operators.peek())) {
-//
-//		if (precedence(token) < 0) {
-//			// token is closing parenthesis
-//			isParenthesis = true;
-//		}
-//
-//		performOperation(operators, operands);
-//	}
-//	// Don't push for closing parenthesis
-//	if (!isParenthesis) {
-//		operators.push(token);
-//	}
-//}
-//}
 
 	private boolean isOperand(String o) {
 		return precedence(o) == 0;
@@ -249,7 +157,7 @@ public class ExpressionTree {
 	private int evaluate(SymbolTable t, Node r) {// TODO write evaluate
 		// return the int value of the expression tree with root r
 		// t is used to lookup values of variables
-
+		//if(isDigit(r.data))
 		return -1;
 	}
 
