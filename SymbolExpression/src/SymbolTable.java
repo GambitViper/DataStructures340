@@ -4,7 +4,7 @@
  */
 import java.util.*;
 
-public class SymbolTable {
+public class SymbolTable implements Iterable<String>{
 
 	/**
 	 * A node used to build linked lists not utilizing the Java LinkedList class
