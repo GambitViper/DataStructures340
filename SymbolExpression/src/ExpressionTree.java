@@ -22,9 +22,9 @@ public class ExpressionTree {
 			right = r;
 		}
 		
-		public String toString(){//TODO Remove me
-			return data;
-		}
+//		public String toString(){
+//			return data;
+//		}
 	}
 
 	private Node root;
@@ -65,20 +65,20 @@ public class ExpressionTree {
 		// result <- pop from the operand stack
 		
 		for(String token : exp.split(" ")) {
-			System.out.println("Operators" + operators);//TODO remove print statement
-			System.out.print("Operands");//TODO remove print statement
-			printOperands();
+			//System.out.println("Operators" + operators);
+			//System.out.print("Operands");
+			//printOperands(); Debugger print methods
 			if (isOperand(token)) {
-				System.out.println("Pushing to Operands: " + token);//TODO remove print statement
+				//System.out.println("Pushing to Operands: " + token);
 				operands.push(new ExpressionTree(new Node(null, token, null)));
 			} else if(token.equals("(")){
-				System.out.println("Pushing to Operators: " + token);//TODO remove print statement
+				//System.out.println("Pushing to Operators: " + token);
 				operators.push(token);
 			} else if(token.equals(")")){
 				while(!operators.isEmpty() && !operators.peek().equals("(")){
 					operands.push(operate());
 				}
-				System.out.println("Popping Open: " + operators.peek());//TODO remove print statement
+				//System.out.println("Popping Open: " + operators.peek());
 				operators.pop();
 			}else if(token.equals("^") && operators.peek().equals("^")){
 				operators.push(token);
@@ -86,7 +86,7 @@ public class ExpressionTree {
 				while(!operators.isEmpty() && precedence(token) <= precedence(operators.peek())){
 					operands.push(operate());
 				}
-				System.out.println("Pushing to Operators: " + token);//TODO remove print statement
+				//System.out.println("Pushing to Operators: " + token);
 				operators.push(token);
 			}
 		}
@@ -109,14 +109,14 @@ public class ExpressionTree {
 		return merge;
 	}
 	
-	private void printOperands(){//TODO Remove me
-		System.out.print("[");
-		for (ExpressionTree t : operands){
-			System.out.print(t.root + ", ");
-		}
-		System.out.print("]");
-		System.out.println();
-	}
+//	private void printOperands(){
+//		System.out.print("[");
+//		for (ExpressionTree t : operands){
+//			System.out.print(t.root + ", ");
+//		}
+//		System.out.print("]");
+//		System.out.println();
+//	}
 
 	private boolean isOperand(String o) {
 		return precedence(o) == 0;
