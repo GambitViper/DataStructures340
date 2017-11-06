@@ -106,9 +106,9 @@ public class ExpressionTree {
 		ExpressionTree left;
 		String op = operators.pop();
 		ExpressionTree merge;
-		if(op.equals("!")){
+		if (op.equals("!")) {
 			merge = new ExpressionTree(null, op, right.root);
-		}else {
+		} else {
 			left = operands.pop();
 			merge = new ExpressionTree(left.root, op, right.root);
 		}
@@ -171,7 +171,11 @@ public class ExpressionTree {
 			return Integer.parseInt(t.getData(r.data).toString());
 		} else if (!isOperand(r.data)) {
 			// r.data is an operator
-			return evaluate(evaluate(t, r.left), r.data, evaluate(t, r.right));
+			if (r.data.equals("!")) {
+				return evaluate(0, r.data, evaluate(t, r.right));
+			} else {
+				return evaluate(evaluate(t, r.left), r.data, evaluate(t, r.right));
+			}
 		} else {
 			// Uninitialized variable
 			return 0;
@@ -246,13 +250,13 @@ public class ExpressionTree {
 
 	public static void main(String args[]) throws IOException {
 		// used to test expression tree
-//		String exp = "A + B * C ^ ( D - E ) ^ F + H / I";
-//		exp = "! ( A + B )";
-//		ExpressionTree tree = new ExpressionTree(exp);
-//		System.out.println("Infix: ");
-//		System.out.println(tree.toInfix());
-//		System.out.println("Postfix: ");
-//		System.out.println(tree.toPostfix());
+		// String exp = "A + B * C ^ ( D - E ) ^ F + H / I";
+		// exp = "! ( A + B )";
+		// ExpressionTree tree = new ExpressionTree(exp);
+		// System.out.println("Infix: ");
+		// System.out.println(tree.toInfix());
+		// System.out.println("Postfix: ");
+		// System.out.println(tree.toPostfix());
 	}
 
 }
