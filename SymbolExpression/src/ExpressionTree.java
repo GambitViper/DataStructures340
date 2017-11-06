@@ -21,22 +21,22 @@ public class ExpressionTree {
 			data = d;
 			right = r;
 		}
-		
-//		public String toString(){
-//			return data;
-//		}
+
+		// public String toString(){
+		// return data;
+		// }
 	}
 
 	private Node root;
 
-	private ExpressionTree(ExpressionTree operand1, String operator, ExpressionTree operand2) {
-		root = new Node(operand1.root, operator, operand2.root);
+	private ExpressionTree(Node operand1, String operator, Node operand2) {
+		root = new Node(operand1, operator, operand2);
 	}
 
 	private ExpressionTree(Node r) {
 		root = r;
 	}
-	
+
 	private Stack<String> operators;
 	private Stack<ExpressionTree> operands;
 
@@ -63,30 +63,30 @@ public class ExpressionTree {
 		// push operand onto the operand stack
 		// pending_operand <- True
 		// result <- pop from the operand stack
-		
-		for(String token : exp.split(" ")) {
-			//System.out.println("Operators" + operators);
-			//System.out.print("Operands");
-			//printOperands(); Debugger print methods
+
+		for (String token : exp.split(" ")) {
+			// System.out.println("Operators" + operators);
+			// System.out.print("Operands");
+			// printOperands(); Debugger print methods
 			if (isOperand(token)) {
-				//System.out.println("Pushing to Operands: " + token);
+				// System.out.println("Pushing to Operands: " + token);
 				operands.push(new ExpressionTree(new Node(null, token, null)));
-			} else if(token.equals("(")){
-				//System.out.println("Pushing to Operators: " + token);
+			} else if (token.equals("(")) {
+				// System.out.println("Pushing to Operators: " + token);
 				operators.push(token);
-			} else if(token.equals(")")){
-				while(!operators.isEmpty() && !operators.peek().equals("(")){
+			} else if (token.equals(")")) {
+				while (!operators.isEmpty() && !operators.peek().equals("(")) {
 					operands.push(operate());
 				}
-				//System.out.println("Popping Open: " + operators.peek());
+				// System.out.println("Popping Open: " + operators.peek());
 				operators.pop();
-			}else if(token.equals("^") && operators.peek().equals("^")){
+			} else if (token.equals("^") && operators.peek().equals("^")) {
 				operators.push(token);
-			}else {
-				while(!operators.isEmpty() && precedence(token) <= precedence(operators.peek())){
+			} else {
+				while (!operators.isEmpty() && precedence(token) <= precedence(operators.peek())) {
 					operands.push(operate());
 				}
-				//System.out.println("Pushing to Operators: " + token);
+				// System.out.println("Pushing to Operators: " + token);
 				operators.push(token);
 			}
 		}
@@ -100,23 +100,29 @@ public class ExpressionTree {
 		root = operands.pop().root;
 
 	}
-	
-	private ExpressionTree operate(){
+
+	private ExpressionTree operate() {
 		ExpressionTree right = operands.pop();
-		ExpressionTree left = operands.pop();
+		ExpressionTree left;
 		String op = operators.pop();
-		ExpressionTree merge = new ExpressionTree(left, op, right);
+		ExpressionTree merge;
+		if(op.equals("!")){
+			merge = new ExpressionTree(null, op, right.root);
+		}else {
+			left = operands.pop();
+			merge = new ExpressionTree(left.root, op, right.root);
+		}
 		return merge;
 	}
-	
-//	private void printOperands(){
-//		System.out.print("[");
-//		for (ExpressionTree t : operands){
-//			System.out.print(t.root + ", ");
-//		}
-//		System.out.print("]");
-//		System.out.println();
-//	}
+
+	// private void printOperands(){
+	// System.out.print("[");
+	// for (ExpressionTree t : operands){
+	// System.out.print(t.root + ", ");
+	// }
+	// System.out.print("]");
+	// System.out.println();
+	// }
 
 	private boolean isOperand(String o) {
 		return precedence(o) == 0;
@@ -140,7 +146,7 @@ public class ExpressionTree {
 			// !
 			return 4;
 		}
-		if (c == '(' || c == ')'){
+		if (c == '(' || c == ')') {
 			return -1;
 		}
 		// Operand
@@ -157,8 +163,51 @@ public class ExpressionTree {
 	private int evaluate(SymbolTable t, Node r) {// TODO write evaluate
 		// return the int value of the expression tree with root r
 		// t is used to lookup values of variables
-		//if(isDigit(r.data))
-		return -1;
+		// if(isDigit(r.data))
+		if (isNum(r.data)) {
+			return Integer.parseInt(r.data);
+		} else if (t.find(r.data)) {
+			// Value located in symbol table
+			return Integer.parseInt((String) t.getData(r.data));
+		} else if (!isOperand(r.data)) {
+			// r.data is an operator
+			return evaluate(evaluate(t, r.left), r.data, evaluate(t, r.right));
+		} else {
+			// Uninitialized variable
+			return 0;
+		}
+	}
+
+	private int evaluate(int left, String operator, int right) {
+		switch (operator.charAt(0)) {
+		case '+':
+			return left + right;
+		case '-':
+			return left - right;
+		case '*':
+			return left * right;
+		case '/':
+			return left / right;
+		case '%':
+			return left % right;
+		case '^':
+			return (int) Math.pow(left, right);
+		case '!':
+			return right * -1;
+		}
+		return 0;
+	}
+
+	public static boolean isNum(String strNum) {
+		boolean isNum = true;
+		try {
+
+			Double.parseDouble(strNum);
+
+		} catch (NumberFormatException e) {
+			isNum = false;
+		}
+		return isNum;
 	}
 
 	public String toPostfix() {
@@ -197,12 +246,13 @@ public class ExpressionTree {
 
 	public static void main(String args[]) throws IOException {
 		// used to test expression tree
-		String exp = "A + B * C ^ ( D - E ) ^ F + H / I";
-		ExpressionTree tree = new ExpressionTree(exp);
-		System.out.println("Infix: ");
-		System.out.println(tree.toInfix());
-		System.out.println("Postfix: ");
-		System.out.println(tree.toPostfix());
+//		String exp = "A + B * C ^ ( D - E ) ^ F + H / I";
+//		exp = "! ( A + B )";
+//		ExpressionTree tree = new ExpressionTree(exp);
+//		System.out.println("Infix: ");
+//		System.out.println(tree.toInfix());
+//		System.out.println("Postfix: ");
+//		System.out.println(tree.toPostfix());
 	}
 
 }
