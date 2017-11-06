@@ -160,7 +160,7 @@ public class ExpressionTree {
 		return evaluate(t, root);
 	}
 
-	private int evaluate(SymbolTable t, Node r) {// TODO write evaluate
+	private int evaluate(SymbolTable t, Node r) {
 		// return the int value of the expression tree with root r
 		// t is used to lookup values of variables
 		// if(isDigit(r.data))
