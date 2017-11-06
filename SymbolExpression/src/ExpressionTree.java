@@ -80,7 +80,7 @@ public class ExpressionTree {
 				}
 				// System.out.println("Popping Open: " + operators.peek());
 				operators.pop();
-			} else if (token.equals("^") && operators.peek().equals("^")) {
+			} else if (!operators.isEmpty() && token.equals("^") && operators.peek().equals("^")) {
 				operators.push(token);
 			} else {
 				while (!operators.isEmpty() && precedence(token) <= precedence(operators.peek())) {
@@ -168,7 +168,7 @@ public class ExpressionTree {
 			return Integer.parseInt(r.data);
 		} else if (t.find(r.data)) {
 			// Value located in symbol table
-			return Integer.parseInt((String) t.getData(r.data));
+			return Integer.parseInt(t.getData(r.data).toString());
 		} else if (!isOperand(r.data)) {
 			// r.data is an operator
 			return evaluate(evaluate(t, r.left), r.data, evaluate(t, r.right));

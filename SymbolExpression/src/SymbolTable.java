@@ -22,7 +22,7 @@ public class SymbolTable implements Iterable<String>{
 		}
 		
 		public String toString(){
-			return key + " : " + data.toString();
+			return data.toString();
 		}
 	}
 
@@ -189,7 +189,7 @@ public class SymbolTable implements Iterable<String>{
 			Node nextNode = curNode;
 			curNode = curNode.next;
 			
-			return nextNode.toString();
+			return nextNode.key + " : " + nextNode.data.toString();
 		}
 
 		public void remove() { 
@@ -203,31 +203,31 @@ public class SymbolTable implements Iterable<String>{
 	}
 
 	public static void main(String[] args) {
-		// code to test SymbolTable
-		int tableSize = 26;
-		
-		SymbolTable table = new SymbolTable(tableSize);
-		table.insert("x");
-		table.setValue("x", new Integer("3"));
-		
-		table.insert("y");
-		table.setValue("y", new Integer("42"));
-		
-		table.insert("z");
-		table.setValue("z", new Integer("1703"));
-		
-		Iterator<String> iter = table.iterator();
-		while(iter.hasNext()){
-			System.out.println(iter.next());
-		}
-		
-		table.setValue("z", "Haha!");
-		table.remove("y");
-		
-		iter = table.iterator();
-		while(iter.hasNext()){
-			System.out.println(iter.next());
-		}
+//		// code to test SymbolTable
+//		int tableSize = 26;
+//		
+//		SymbolTable table = new SymbolTable(tableSize);
+//		table.insert("x");
+//		table.setValue("x", new Integer("3"));
+//		
+//		table.insert("y");
+//		table.setValue("y", new Integer("42"));
+//		
+//		table.insert("z");
+//		table.setValue("z", new Integer("1703"));
+//		
+//		Iterator<String> iter = table.iterator();
+//		while(iter.hasNext()){
+//			System.out.println(iter.next());
+//		}
+//		
+//		table.setValue("z", "Haha!");
+//		table.remove("y");
+//		
+//		iter = table.iterator();
+//		while(iter.hasNext()){
+//			System.out.println(iter.next());
+//		}
 
 	}
 
