@@ -18,9 +18,9 @@ public class Assignments {
         //Loop through the lines
         while ((line = fin.readLine()) != null) {
             String[] expression = line.split(" = ");
-            symbolTable.insert(expression[0].trim());
+            symbolTable.insert(expression[0]);
             //Convert right side of '=' to expression tree
-            ExpressionTree expTree = new ExpressionTree(expression[1].trim());
+            ExpressionTree expTree = new ExpressionTree(expression[1]);
             //Evaluate and add as value for the assigning key
             int evaluation = expTree.evaluate(symbolTable);
             symbolTable.setValue(expression[0], evaluation);
