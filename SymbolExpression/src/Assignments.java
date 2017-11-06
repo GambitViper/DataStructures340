@@ -7,6 +7,7 @@
  *
  */
 import java.io.*;
+import java.util.*;
 
 public class Assignments {
 
@@ -27,8 +28,9 @@ public class Assignments {
         }
         
         //Output results
-        for (String string : symbolTable) {
-            System.out.println(string);
+        Iterator<String> iter = symbolTable.iterator();
+        while(iter.hasNext()){
+        	System.out.println(iter.next());
         }
         
         fin.close();
